@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prismglass/prismglass.dart';
+import 'package:prismglass/prism_glass.dart';
 
 void main() => runApp(PrismGlassDemoApp());
 
@@ -129,7 +129,6 @@ class ViewModeScreen extends StatelessWidget {
                   width: 150,
                   height: 150,
                   blurAmount: 10.0,
-                  glassThickness: 2.0,
                   refractiveIndex: 1.0,
                   opacity: 0.5,
                   borderRadius: BorderRadius.circular(20),
@@ -143,7 +142,6 @@ class ViewModeScreen extends StatelessWidget {
                   width: 150,
                   height: 150,
                   blurAmount: 15.0,
-                  glassThickness: 3.0,
                   refractiveIndex: 1.2,
                   opacity: 0.6,
                   borderRadius: BorderRadius.circular(30),
@@ -157,7 +155,6 @@ class ViewModeScreen extends StatelessWidget {
                   width: 150,
                   height: 150,
                   blurAmount: 8.0,
-                  glassThickness: 1.5,
                   refractiveIndex: 1.0,
                   opacity: 0.4,
                   borderRadius: BorderRadius.circular(10),
@@ -234,7 +231,6 @@ class _EditModeScreenState extends State<EditModeScreen> {
               width: 250,
               height: 250,
               blurAmount: blurAmount,
-              glassThickness: glassThickness,
               refractiveIndex: refractiveIndex,
               opacity: opacity,
               borderRadius: borderRadius,

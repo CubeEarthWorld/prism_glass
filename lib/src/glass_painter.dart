@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 
 class GlassPainter extends CustomPainter {
-  final double glassThickness;
   final double refractiveIndex;
   final Gradient? borderGradient;
   final BorderRadius borderRadius;
 
-  /// リフラクション（屈折）効果を有効にするかどうか
   final bool enableRefraction;
 
-  GlassPainter({
-    required this.glassThickness,
+  const GlassPainter({
     required this.refractiveIndex,
     required this.borderRadius,
     this.borderGradient,
@@ -19,13 +16,12 @@ class GlassPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 1. ボーダーグラデーションが指定されている場合、そのグラデーションで枠線を描画
+    // 枠線描画：borderGradientが指定されている場合のみ
     if (borderGradient != null) {
       final rect = Offset.zero & size;
       final paint = Paint()
         ..shader = borderGradient!.createShader(rect)
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = glassThickness;
+        ..style = PaintingStyle.stroke;
       canvas.drawRRect(
         RRect.fromRectAndCorners(
           rect,
@@ -38,10 +34,8 @@ class GlassPainter extends CustomPainter {
       );
     }
 
-    // 2. リフラクション効果のシミュレーション（有効な場合のみ）
+    // リフラクション効果のシミュレーション（有効な場合のみ）
     if (enableRefraction && refractiveIndex != 1.0) {
-      // シンプルな実装例として、リフラクションの強さに応じた
-      // ラジアルグラデーション（ハイライト）を重ね合わせる
       final double offsetAmount = (refractiveIndex - 1.0) * 10.0;
       final Rect refractionRect = Rect.fromLTWH(
         offsetAmount,
@@ -59,7 +53,6 @@ class GlassPainter extends CustomPainter {
           ],
           stops: [0.0, 1.0],
         ).createShader(refractionRect)
-      // BlendMode.lighten で光が強調されるように
         ..blendMode = BlendMode.lighten;
       canvas.drawRRect(
         RRect.fromRectAndCorners(
@@ -76,8 +69,7 @@ class GlassPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant GlassPainter oldDelegate) {
-    return oldDelegate.glassThickness != glassThickness ||
-        oldDelegate.refractiveIndex != refractiveIndex ||
+    return oldDelegate.refractiveIndex != refractiveIndex ||
         oldDelegate.borderGradient != borderGradient ||
         oldDelegate.borderRadius != borderRadius ||
         oldDelegate.enableRefraction != enableRefraction;
