@@ -1,3 +1,4 @@
+// lib/src/glass_painter.dart
 import 'package:flutter/material.dart';
 
 class GlassPainter extends CustomPainter {
@@ -5,6 +6,7 @@ class GlassPainter extends CustomPainter {
   final Gradient? borderGradient;
   final BorderRadius borderRadius;
 
+  /// リフラクション効果を有効にするかどうか
   final bool enableRefraction;
 
   const GlassPainter({
@@ -16,7 +18,7 @@ class GlassPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // 枠線描画：borderGradientが指定されている場合のみ
+    // 枠線描画：borderGradient が指定されている場合のみ
     if (borderGradient != null) {
       final rect = Offset.zero & size;
       final paint = Paint()
@@ -36,34 +38,19 @@ class GlassPainter extends CustomPainter {
 
     // リフラクション効果のシミュレーション（有効な場合のみ）
     if (enableRefraction && refractiveIndex != 1.0) {
-      final double offsetAmount = (refractiveIndex - 1.0) * 10.0;
-      final Rect refractionRect = Rect.fromLTWH(
-        offsetAmount,
-        offsetAmount,
-        size.width - offsetAmount,
-        size.height - offsetAmount,
-      );
-      final Paint refractionPaint = Paint()
+      final double highlightRadius = size.width * 0.3;
+      final Offset highlightCenter = Offset(highlightRadius * 0.8, highlightRadius * 0.8);
+      final Rect highlightRect = Rect.fromCircle(center: highlightCenter, radius: highlightRadius);
+      final Paint highlightPaint = Paint()
         ..shader = RadialGradient(
-          center: Alignment.topLeft,
-          radius: 1.0,
           colors: [
             Colors.white.withOpacity(0.2 * (refractiveIndex - 1.0)),
             Colors.transparent,
           ],
           stops: [0.0, 1.0],
-        ).createShader(refractionRect)
-        ..blendMode = BlendMode.lighten;
-      canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Offset.zero & size,
-          topLeft: borderRadius.topLeft,
-          topRight: borderRadius.topRight,
-          bottomLeft: borderRadius.bottomLeft,
-          bottomRight: borderRadius.bottomRight,
-        ),
-        refractionPaint,
-      );
+        ).createShader(highlightRect)
+        ..blendMode = BlendMode.screen;
+      canvas.drawCircle(highlightCenter, highlightRadius, highlightPaint);
     }
   }
 
