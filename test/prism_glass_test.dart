@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prismglass/prism_glass.dart';
+import 'package:prism_glass/prism_glass.dart';
 
 void main() => runApp(PrismGlassDemoApp());
 
@@ -32,14 +32,8 @@ class _DemoHomePageState extends State<DemoHomePage> {
   Color _tintColor = Colors.blue;
   bool _enableRefraction = true;
 
-  void _updateParameters(
-      double blur,
-      double thickness,
-      double refractive,
-      double opacity,
-      BorderRadius radius,
-      Color tint,
-      bool enableRefraction) {
+  void _updateParameters(double blur, double thickness, double refractive,
+      double opacity, BorderRadius radius, Color tint, bool enableRefraction) {
     setState(() {
       _blurAmount = blur;
       _glassThickness = thickness;
@@ -182,7 +176,7 @@ class EditModeScreen extends StatefulWidget {
   final Color tintColor;
   final bool enableRefraction;
   final Function(double, double, double, double, BorderRadius, Color, bool)
-  onParametersChanged;
+      onParametersChanged;
 
   const EditModeScreen({
     Key? key,
@@ -324,7 +318,8 @@ class _EditModeScreenState extends State<EditModeScreen> {
                     });
                   },
                 ),
-                Text('Border Radius: ${borderRadius.topLeft.x.toStringAsFixed(1)}'),
+                Text(
+                    'Border Radius: ${borderRadius.topLeft.x.toStringAsFixed(1)}'),
                 Slider(
                   min: 0,
                   max: 50,
